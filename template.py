@@ -86,8 +86,6 @@ def call_openai(
     latency = time.perf_counter() - start
     return response.choices[0].message.content, latency
 
-    raise NotImplementedError("Implement call_openai")
-
 
 # ---------------------------------------------------------------------------
 # Task 1.2 — Gọi GPT-4o-mini
@@ -115,7 +113,6 @@ def call_openai_mini(
         top_p=top_p,
         max_tokens=max_tokens,
     )
-    raise NotImplementedError("Implement call_openai_mini")
 
 
 # ---------------------------------------------------------------------------
@@ -153,7 +150,6 @@ def compare_models(prompt: str) -> dict:
         "mini_latency": mini_latency,
         "gpt4o_cost_estimate": cost,
     }
-    raise NotImplementedError("Implement compare_models")
 
 
 # ===========================================================================
@@ -205,7 +201,6 @@ def chat_with_system_prompt(
     )
     latency = time.perf_counter() - start
     return response.choices[0].message.content, latency
-    raise NotImplementedError("Implement chat_with_system_prompt")
 
 
 # ---------------------------------------------------------------------------
@@ -239,7 +234,6 @@ def count_tokens(text: str, model: str = OPENAI_MODEL) -> int:
         return len(enc.encode(text))
     except Exception:
         return max(1, len(text) // 4)
-    raise NotImplementedError("Implement count_tokens")
 
 
 # ---------------------------------------------------------------------------
@@ -363,7 +357,6 @@ def retry_with_backoff(
             if attempt == max_retries:
                 raise
             time.sleep(base_delay * (2**attempt))
-    raise NotImplementedError("Implement retry_with_backoff")
 
 
 # ===========================================================================
@@ -525,12 +518,12 @@ def format_comparison_table(results: list[dict]) -> str:
     ]
 
     def format_row(row: tuple[str, ...]) -> str:
-        return " | ".join(
-            value.ljust(widths[index]) for index, value in enumerate(row)
-        )
+        return " | ".join(value.ljust(widths[index]) for index, value in enumerate(row))
 
     separator = "-+-".join("-" * width for width in widths)
-    return "\n".join([format_row(headers), separator, *(format_row(row) for row in rows)])
+    return "\n".join(
+        [format_row(headers), separator, *(format_row(row) for row in rows)]
+    )
 
 
 # ---------------------------------------------------------------------------

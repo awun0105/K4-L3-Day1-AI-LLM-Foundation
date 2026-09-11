@@ -15,10 +15,11 @@ Gọi `call_openai` với temperature 0.0, 0.5, 1.0 và 1.5 dùng prompt
 **"Hãy kể cho tôi một sự thật thú vị về Việt Nam."**
 
 **Bạn nhận thấy quy luật gì qua bốn phản hồi?** (2–3 câu)
-> Ở `temperature=0.0`, phản hồi có xu hướng ổn định, trực tiếp và ít thay đổi;
-> khi tăng lên 0.5 và 1.0, cách diễn đạt trở nên đa dạng và giàu chi tiết hơn.
-> Với `temperature=1.5`, câu trả lời sáng tạo hơn nhưng cũng dễ lan man hoặc đưa
-> ra chi tiết kém chắc chắn, nên temperature càng cao thì độ ngẫu nhiên càng lớn.
+> Trong bốn lần chạy, phản hồi ở `temperature=0.0` trực tiếp và ít biến tấu;
+> ở 0.5 và 1.0, cách diễn đạt đa dạng và chi tiết hơn; còn ở 1.5, phản
+> hồi sáng tạo nhưng dễ lan man hoặc chứa chi tiết kém chắc chắn. Kết quả này
+> cho thấy temperature cao thường làm tăng độ ngẫu nhiên, nhưng đây là xu hướng
+> quan sát chứ không bảo đảm mọi lần gọi đều cho cùng kết quả.
 
 ### Câu 1.2 — Chọn temperature cho sản phẩm
 **Bạn sẽ đặt temperature bao nhiêu cho chatbot hỗ trợ khách hàng, và tại sao?**
@@ -65,13 +66,19 @@ Chọn một đoạn văn tiếng Việt ~100 từ. So sánh số token theo `co
 
 **Hai con số chênh nhau bao nhiêu phần trăm? Vì sao tiếng Việt thường tốn
 nhiều token hơn tiếng Anh cùng độ dài?**
-> Với đoạn tiếng Việt tôi chọn gồm 124 từ, `count_tokens` trả về 137 token, còn
-> công thức `số từ / 0.75` ước lượng 165,33 token. Hai kết quả lệch khoảng
-> **17,14%** so với giá trị ước lượng; trong trường hợp này công thức đếm từ đã
-> ước lượng cao hơn 28,33 token. Tiếng Việt dùng dấu thanh, ký tự Unicode và các
-> từ ghép được viết thành nhiều âm tiết cách nhau bằng khoảng trắng, nên cách
-> tokenizer tách các mảnh ký tự không luôn trùng với cách con người đếm từ; mức
-> chênh còn phụ thuộc bộ mã hóa và nội dung cụ thể.
+> Đoạn tôi dùng là: “Trí tuệ nhân tạo đang thay đổi cách sinh viên học tập, tìm
+> kiếm thông tin và giải quyết vấn đề. Trong lớp học, công cụ AI có thể giải thích một
+> khái niệm theo nhiều cách và đưa ra ví dụ phù hợp. Tuy nhiên, sinh viên không nên sao
+> chép câu trả lời một cách máy móc. Các em cần kiểm tra nguồn, đối chiếu dữ kiện và tự
+> giải thích lại kết quả bằng hiểu biết của mình. Khi được sử dụng có trách nhiệm,
+> AI trở thành một trợ lý hữu ích, nhưng tư duy phản biện và trách nhiệm cuối cùng vẫn
+> thuộc về con người.” Đoạn này có 111 từ; `count_tokens` với model `gpt-4o` trả
+> về 130 token, còn công thức `111 / 0.75` ước lượng 148 token. Công thức gần
+> đúng cao hơn 18 token, tương đương **12,16% so với giá trị ước lượng**.
+> Nguyên nhân là tokenizer tách văn bản thành các token con thay vì đếm từ theo
+> khoảng trắng; cách viết theo âm tiết và mức độ bao phủ tiếng Việt trong bộ từ
+> vựng của tokenizer có thể khiến tiếng Việt cần nhiều token hơn tiếng Anh có độ
+> dài tương đương. Kết quả cụ thể còn phụ thuộc vào nội dung, model và bộ mã hóa.
 
 ---
 
